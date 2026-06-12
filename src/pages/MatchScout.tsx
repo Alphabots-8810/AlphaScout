@@ -25,12 +25,10 @@ const TAGS = [
   "Inconsistent",
   "Shift-aware",
   "Wastes fuel",
-  "Fast climber",
   "Good human player",
 ];
 
 type AutoClimb = "none" | "success" | "failed";
-type EndgameClimb = "none" | "l1" | "l2" | "l3" | "failed";
 
 export function MatchScout() {
   const { matchNumber: matchParam } = useParams();
@@ -53,8 +51,6 @@ export function MatchScout() {
   const [teleopWastedFuel, setTeleopWastedFuel] = useState(0);
   const [playedDefense, setPlayedDefense] = useState(false);
   const [teleopNotes, setTeleopNotes] = useState("");
-  const [endgameClimb, setEndgameClimb] = useState<EndgameClimb>("none");
-  const [endgameNotes, setEndgameNotes] = useState("");
   const [driverRating, setDriverRating] = useState(5);
   const [defenseRating, setDefenseRating] = useState(5);
   const [tags, setTags] = useState<string[]>([]);
@@ -88,8 +84,6 @@ export function MatchScout() {
         teleopWastedFuel,
         playedDefense,
         teleopNotes,
-        endgameClimb,
-        endgameNotes,
         driverRating,
         defenseRating: playedDefense ? defenseRating : undefined,
         tags,
@@ -215,29 +209,6 @@ export function MatchScout() {
           placeholder="Teleop notes"
           value={teleopNotes}
           onChange={(e) => setTeleopNotes(e.target.value)}
-        />
-      </section>
-
-      <Separator />
-
-      <section className="space-y-3">
-        <h2 className="font-semibold">Endgame</h2>
-        <ChoiceRow
-          label="Tower climb"
-          value={endgameClimb}
-          onChange={setEndgameClimb}
-          options={[
-            { value: "none", label: "None" },
-            { value: "l1", label: "L1 (10)" },
-            { value: "l2", label: "L2 (20)" },
-            { value: "l3", label: "L3 (30)" },
-            { value: "failed", label: "Failed" },
-          ]}
-        />
-        <Textarea
-          placeholder="Endgame notes"
-          value={endgameNotes}
-          onChange={(e) => setEndgameNotes(e.target.value)}
         />
       </section>
 

@@ -1,6 +1,6 @@
 # AlphaScout — Requirements
 
-_Last updated: 2026-06-12_
+_Last updated: 2026-06-12 (rev 2: endgame climb removed — nobody climbs in our meta)_
 
 Mobile-first scouting app for the **2026 FRC game REBUILT**, built by FRC 8810 Alphabots.
 Third app in the Alpha\* series (AlphaSim → AlphaHarness → AlphaScout).
@@ -16,8 +16,9 @@ dashboard landing pages per section).
   - Scouts cannot count individual FUEL reliably → record **estimated counts** with
     coarse steppers (+1 / +5 / +10), plus a "dumped into inactive HUB" waste flag.
 - **TOWER climb**:
-  - AUTO: Level 1 only, 15 pts (max 2 robots per alliance).
-  - TELEOP/endgame: L1 = 10, L2 = 20, L3 = 30 pts; one level per robot.
+  - AUTO: Level 1 only, 15 pts (max 2 robots per alliance) — scouted.
+  - TELEOP/endgame climb (L1/L2/L3 = 10/20/30) exists in the game but is
+    **not scouted**: team decision 2026-06-12, nobody climbs in our meta.
 - **Ranking points**: Energized = 100 FUEL, Supercharged = 360 FUEL,
   Traversal = 50 TOWER points. Win = 3 RP, tie = 1 RP.
 
@@ -52,8 +53,8 @@ reports, pick-list tier. Tap → team detail.
 
 ### 3. Team detail view
 Number, nickname, location, pit answers (incl. robot photo), all match reports,
-averages (auto FUEL, teleop FUEL, total FUEL, avg TOWER points, climb distribution,
-driver rating, defense rating), current tier on the primary pick list.
+averages (auto FUEL, teleop FUEL, total FUEL, wasted FUEL, auto-climb success
+rate, driver rating, defense rating), current tier on the primary pick list.
 
 ### 4. Pit scouting form
 Grid landing page of all teams showing scouted status; tap to scout.
@@ -61,7 +62,7 @@ Grid landing page of all teams showing scouted status; tap to scout.
 - FUEL capacity (count stepper)
 - Intake: ground / human-player / both / none
 - Scoring style: dumper / shooter / both
-- Climb capability: none / L1 / L2 / L3 (checkboxes for each achievable level)
+- Climb capability: can climb L1 in auto (single checkbox)
 - Auto: claimed FUEL in auto (stepper), claimed auto L1 climb (toggle)
 - Robot photo (camera capture → Convex file storage)
 - Notes (short text)
@@ -73,16 +74,16 @@ Checkboxes/steppers, minimal typing.
 - AUTO: FUEL scored (stepper +1/+5/+10), L1 climb (none / success / failed), notes.
 - TELEOP: FUEL scored (stepper +1/+5/+10), FUEL dumped into inactive HUB
   (stepper, waste tracking), played defense (toggle), notes.
-- ENDGAME: climb result (none / L1 / L2 / L3 / failed attempt), notes.
+- No endgame section (endgame climb not scouted).
 - Ratings: driver 1–10, defense 1–10 (only if played defense).
 - Tags: Fast, Accurate, Good driver, Plays defense, Tippy, Broke down, Inconsistent,
-  Shift-aware, Wastes fuel, Fast climber, Good human player.
+  Shift-aware, Wastes fuel, Good human player.
 - Submit → toast + return to match list.
 
 ### 6. Pick list page
 - Kanban board (dnd-kit): Tier 1 / Tier 2 / Tier 3 / Do Not Pick / Uncategorized.
 - Every imported team starts Uncategorized; drag between columns, reorder within.
-- Card: number, nickname, pit status, avg driver rating, avg teleop FUEL, avg TOWER pts.
+- Card: number, nickname, pit status, avg driver rating, avg teleop FUEL, avg wasted FUEL.
 - Each scout has **personal pick lists** (can have several); admin owns the **primary
   pick list** (starts blank).
 - Import tool: merge all personal lists into the primary via consensus score

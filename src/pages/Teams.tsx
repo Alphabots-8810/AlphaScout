@@ -52,8 +52,9 @@ export function Teams() {
                   {t.stats.reportCount} match reports
                   {t.stats.avgTotalFuel !== null &&
                     ` · ${t.stats.avgTotalFuel} avg fuel`}
-                  {t.stats.avgTowerPoints !== null &&
-                    ` · ${t.stats.avgTowerPoints} avg tower`}
+                  {t.stats.avgWastedFuel !== null &&
+                    t.stats.avgWastedFuel > 0 &&
+                    ` · ${t.stats.avgWastedFuel} wasted`}
                 </p>
               </div>
               <div className="flex shrink-0 flex-col items-end gap-1">

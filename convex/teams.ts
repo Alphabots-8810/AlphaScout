@@ -3,14 +3,6 @@ import type { Doc, Id } from "./_generated/dataModel";
 import { query, type QueryCtx } from "./_generated/server";
 import { requireUser } from "./users";
 
-const ENDGAME_POINTS: Record<string, number> = {
-  none: 0,
-  failed: 0,
-  l1: 10,
-  l2: 20,
-  l3: 30,
-};
-
 export function computeStats(reports: Doc<"matchReports">[]) {
   const submitted = reports.filter((r) => r.status === "submitted");
   const n = submitted.length;
@@ -21,18 +13,13 @@ export function computeStats(reports: Doc<"matchReports">[]) {
       avgTeleopFuel: null,
       avgTotalFuel: null,
       avgWastedFuel: null,
-      avgTowerPoints: null,
       avgDriverRating: null,
       avgDefenseRating: null,
-      climbCounts: { none: 0, l1: 0, l2: 0, l3: 0, failed: 0 },
       autoClimbSuccessRate: null,
     };
   }
   const avg = (f: (r: Doc<"matchReports">) => number) =>
     Math.round((submitted.reduce((s, r) => s + f(r), 0) / n) * 10) / 10;
-
-  const climbCounts = { none: 0, l1: 0, l2: 0, l3: 0, failed: 0 };
-  for (const r of submitted) climbCounts[r.endgameClimb] += 1;
 
   const defenseReports = submitted.filter(
     (r) => r.playedDefense && r.defenseRating !== undefined,
@@ -44,10 +31,6 @@ export function computeStats(reports: Doc<"matchReports">[]) {
     avgTeleopFuel: avg((r) => r.teleopFuel),
     avgTotalFuel: avg((r) => r.autoFuel + r.teleopFuel),
     avgWastedFuel: avg((r) => r.teleopWastedFuel),
-    avgTowerPoints: avg(
-      (r) =>
-        (r.autoClimb === "success" ? 15 : 0) + ENDGAME_POINTS[r.endgameClimb],
-    ),
     avgDriverRating: avg((r) => r.driverRating),
     avgDefenseRating:
       defenseReports.length > 0
@@ -57,7 +40,7 @@ export function computeStats(reports: Doc<"matchReports">[]) {
               10,
           ) / 10
         : null,
-    climbCounts,
+    // Auto L1 (15 pts) is the only climb worth scouting in our meta.
     autoClimbSuccessRate:
       Math.round(
         (submitted.filter((r) => r.autoClimb === "success").length / n) * 100,

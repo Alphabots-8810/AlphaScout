@@ -36,8 +36,6 @@ export function PitForm() {
   const [intake, setIntake] = useState<Intake>("ground");
   const [scoringStyle, setScoringStyle] = useState<ScoringStyle>("dumper");
   const [canClimbL1, setCanClimbL1] = useState(false);
-  const [canClimbL2, setCanClimbL2] = useState(false);
-  const [canClimbL3, setCanClimbL3] = useState(false);
   const [autoFuelClaimed, setAutoFuelClaimed] = useState(0);
   const [autoClimbClaimed, setAutoClimbClaimed] = useState(false);
   const [notes, setNotes] = useState("");
@@ -54,8 +52,6 @@ export function PitForm() {
       setIntake(existing.intake);
       setScoringStyle(existing.scoringStyle);
       setCanClimbL1(existing.canClimbL1);
-      setCanClimbL2(existing.canClimbL2);
-      setCanClimbL3(existing.canClimbL3);
       setAutoFuelClaimed(existing.autoFuelClaimed);
       setAutoClimbClaimed(existing.autoClimbClaimed);
       setNotes(existing.notes);
@@ -90,8 +86,6 @@ export function PitForm() {
         intake,
         scoringStyle,
         canClimbL1,
-        canClimbL2,
-        canClimbL3,
         autoFuelClaimed,
         autoClimbClaimed,
         photoStorageId,
@@ -157,29 +151,13 @@ export function PitForm() {
 
       <Separator />
 
-      <div className="space-y-2">
-        <Label className="text-sm">Climb capability (check all)</Label>
-        <div className="flex gap-4">
-          {(
-            [
-              ["L1", canClimbL1, setCanClimbL1],
-              ["L2", canClimbL2, setCanClimbL2],
-              ["L3", canClimbL3, setCanClimbL3],
-            ] as const
-          ).map(([label, value, set]) => (
-            <label
-              key={label}
-              className="flex flex-1 items-center justify-center gap-2 rounded-lg border p-3"
-            >
-              <Checkbox
-                checked={value}
-                onCheckedChange={(c) => set(c === true)}
-              />
-              <span className="font-medium">{label}</span>
-            </label>
-          ))}
-        </div>
-      </div>
+      <label className="flex items-center justify-between rounded-lg border p-3">
+        <span className="text-sm font-medium">Can climb L1 (auto, 15 pts)</span>
+        <Checkbox
+          checked={canClimbL1}
+          onCheckedChange={(c) => setCanClimbL1(c === true)}
+        />
+      </label>
 
       <Stepper
         label="Claimed auto fuel"

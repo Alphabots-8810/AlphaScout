@@ -1,5 +1,26 @@
 import { internalMutation } from "./_generated/server";
 
+// Wipe scouting reports (local dev only) — used when a schema change
+// removes fields that existing rows still carry:
+//   bunx convex run dev:clearReports
+export const clearReports = internalMutation({
+  args: {},
+  handler: async (ctx) => {
+    let n = 0;
+    for (const table of ["matchReports", "pitReports"] as const) {
+      while (true) {
+        const batch = await ctx.db.query(table).take(100);
+        if (batch.length === 0) break;
+        for (const row of batch) {
+          await ctx.db.delete(row._id);
+          n++;
+        }
+      }
+    }
+    return `deleted ${n} reports`;
+  },
+});
+
 // Local-dev seeding so the app can be exercised without a TBA key:
 //   bunx convex run dev:seed
 // Creates a fake event with 12 teams and 6 qual matches. Idempotent-ish:

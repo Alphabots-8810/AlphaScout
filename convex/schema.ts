@@ -8,14 +8,6 @@ export const climbResult = v.union(
   v.literal("failed"),
 );
 
-export const endgameClimb = v.union(
-  v.literal("none"),
-  v.literal("l1"),
-  v.literal("l2"),
-  v.literal("l3"),
-  v.literal("failed"),
-);
-
 export const tier = v.union(
   v.literal("t1"),
   v.literal("t2"),
@@ -94,9 +86,7 @@ export default defineSchema({
       v.literal("both"),
       v.literal("none"),
     ),
-    canClimbL1: v.boolean(),
-    canClimbL2: v.boolean(),
-    canClimbL3: v.boolean(),
+    canClimbL1: v.boolean(), // auto L1 only — endgame climbing isn't scouted
     autoFuelClaimed: v.number(),
     autoClimbClaimed: v.boolean(),
     photoStorageId: v.optional(v.id("_storage")),
@@ -120,8 +110,6 @@ export default defineSchema({
     teleopWastedFuel: v.number(), // dumped into inactive HUB
     playedDefense: v.boolean(),
     teleopNotes: v.string(),
-    endgameClimb: endgameClimb,
-    endgameNotes: v.string(),
     driverRating: v.number(), // 1-10
     defenseRating: v.optional(v.number()), // 1-10, only if playedDefense
     tags: v.array(v.string()),

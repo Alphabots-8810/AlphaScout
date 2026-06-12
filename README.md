@@ -18,15 +18,15 @@ and written with Claude Code.
   Blue Alliance by event key; re-import is idempotent; multiple events with
   one active at a time.
 - **Team list / team detail** — pit status, report counts, per-team averages
-  (auto/teleop FUEL, wasted FUEL, TOWER points, driver/defense ratings, climb
-  distribution).
+  (auto/teleop FUEL, wasted FUEL, auto-climb success rate, driver/defense
+  ratings).
 - **Pit scouting** — grid landing page, checkbox/stepper form (drivetrain,
-  FUEL capacity, intake, dumper/shooter, climb capability, auto claims),
-  robot photo via Convex file storage.
+  FUEL capacity, intake, dumper/shooter, auto L1 climb capability, auto
+  claims), robot photo via Convex file storage.
 - **Match scouting** — pick a match, **claim a robot** (Convex mutation
   enforces one scout per robot per match), then a phone-sized form: AUTO fuel
   + L1 climb, TELEOP fuel + *fuel wasted into the inactive HUB* (REBUILT's
-  SHIFT mechanic), endgame TOWER level, 1–10 ratings, tags.
+  SHIFT mechanic), 1–10 ratings, tags.
 - **Pick lists** — dnd-kit Kanban (Tier 1/2/3/DNP/Uncategorized). Every scout
   keeps personal lists; the admin owns the primary and can **merge all
   personal lists by consensus score** (tier vote + in-column rank bonus).
@@ -68,7 +68,10 @@ mode.
 - REBUILT FUEL can't be counted ball-by-ball from the stands; the form uses
   ±1/±5 steppers for honest estimates, and tracks inactive-HUB waste
   separately because SHIFT awareness is a real skill gap between robots.
-- TOWER points in stats: AUTO L1 = 15, TELEOP L1/L2/L3 = 10/20/30.
+- Endgame TOWER climbing (10/20/30 pts) exists in REBUILT but is deliberately
+  **not scouted** — in our regional meta nobody climbs, so the form stays
+  lean. Only the AUTO L1 climb (15 pts) is tracked. If your events differ,
+  the old endgame section lives in git history (v0.1).
 - `convex/_generated` is committed on purpose (Convex convention).
 
 ## License

@@ -53,8 +53,6 @@ export const submitReport = mutation({
       v.literal("none"),
     ),
     canClimbL1: v.boolean(),
-    canClimbL2: v.boolean(),
-    canClimbL3: v.boolean(),
     autoFuelClaimed: v.number(),
     autoClimbClaimed: v.boolean(),
     photoStorageId: v.optional(v.id("_storage")),

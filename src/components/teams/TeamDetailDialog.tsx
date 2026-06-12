@@ -13,13 +13,10 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const CLIMB_LABEL: Record<string, string> = {
-  none: "No climb",
-  failed: "Failed",
-  l1: "L1",
-  l2: "L2",
-  l3: "L3",
-  success: "L1 ✓",
+const AUTO_CLIMB_LABEL: Record<string, string> = {
+  none: "",
+  failed: "auto climb ✗",
+  success: "auto climb ✓",
 };
 
 function Stat({ label, value }: { label: string; value: string | number }) {
@@ -73,8 +70,12 @@ export function TeamDetailDialog({
                   value={detail.stats.avgTeleopFuel ?? "—"}
                 />
                 <Stat
-                  label="Avg tower pts"
-                  value={detail.stats.avgTowerPoints ?? "—"}
+                  label="Auto climb %"
+                  value={
+                    detail.stats.autoClimbSuccessRate !== null
+                      ? Math.round(detail.stats.autoClimbSuccessRate * 100)
+                      : "—"
+                  }
                 />
                 <Stat
                   label="Avg driver"
@@ -113,9 +114,7 @@ export function TeamDetailDialog({
                         intake: {detail.pit.intake}
                       </Badge>
                       <Badge variant="secondary">{detail.pit.scoringStyle}</Badge>
-                      {detail.pit.canClimbL1 && <Badge>L1</Badge>}
-                      {detail.pit.canClimbL2 && <Badge>L2</Badge>}
-                      {detail.pit.canClimbL3 && <Badge>L3</Badge>}
+                      {detail.pit.canClimbL1 && <Badge>auto L1</Badge>}
                       {detail.pit.autoClimbClaimed && (
                         <Badge variant="outline">claims auto climb</Badge>
                       )}
@@ -151,12 +150,11 @@ export function TeamDetailDialog({
                         <p className="mt-1 text-muted-foreground">
                           Auto {r.autoFuel} fuel
                           {r.autoClimb !== "none" &&
-                            ` · auto climb ${CLIMB_LABEL[r.autoClimb]}`}{" "}
+                            ` · ${AUTO_CLIMB_LABEL[r.autoClimb]}`}{" "}
                           · Teleop {r.teleopFuel} fuel
                           {r.teleopWastedFuel > 0 &&
                             ` (${r.teleopWastedFuel} wasted)`}{" "}
-                          · Endgame {CLIMB_LABEL[r.endgameClimb]} · Driver{" "}
-                          {r.driverRating}/10
+                          · Driver {r.driverRating}/10
                           {r.playedDefense &&
                             r.defenseRating !== undefined &&
                             ` · Defense ${r.defenseRating}/10`}
@@ -170,9 +168,9 @@ export function TeamDetailDialog({
                             ))}
                           </div>
                         )}
-                        {(r.autoNotes || r.teleopNotes || r.endgameNotes) && (
+                        {(r.autoNotes || r.teleopNotes) && (
                           <p className="mt-1.5 text-xs text-muted-foreground">
-                            {[r.autoNotes, r.teleopNotes, r.endgameNotes]
+                            {[r.autoNotes, r.teleopNotes]
                               .filter(Boolean)
                               .join(" · ")}
                           </p>

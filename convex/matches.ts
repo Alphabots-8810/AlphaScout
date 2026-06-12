@@ -1,7 +1,7 @@
 import { v } from "convex/values";
 import type { Doc, Id } from "./_generated/dataModel";
 import { mutation, query, type MutationCtx } from "./_generated/server";
-import { climbResult, endgameClimb } from "./schema";
+import { climbResult } from "./schema";
 import { requireUser } from "./users";
 
 export const listMatches = query({
@@ -163,8 +163,6 @@ export const claimRobot = mutation({
       teleopWastedFuel: 0,
       playedDefense: false,
       teleopNotes: "",
-      endgameClimb: "none",
-      endgameNotes: "",
       driverRating: 5,
       tags: [],
       updatedAt: Date.now(),
@@ -204,8 +202,6 @@ export const submitReport = mutation({
     teleopWastedFuel: v.number(),
     playedDefense: v.boolean(),
     teleopNotes: v.string(),
-    endgameClimb: endgameClimb,
-    endgameNotes: v.string(),
     driverRating: v.number(),
     defenseRating: v.optional(v.number()),
     tags: v.array(v.string()),

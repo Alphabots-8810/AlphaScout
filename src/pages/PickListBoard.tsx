@@ -43,7 +43,7 @@ type TeamInfo = {
   pitScouted: boolean;
   avgDriver: number | null;
   avgTeleopFuel: number | null;
-  avgTower: number | null;
+  avgWasted: number | null;
 };
 
 function TeamCard({
@@ -84,8 +84,8 @@ function TeamCard({
         {info?.nickname ?? ""}
       </p>
       <p className="text-xs text-muted-foreground tabular-nums">
-        drv {info?.avgDriver ?? "—"} · fuel {info?.avgTeleopFuel ?? "—"} · twr{" "}
-        {info?.avgTower ?? "—"}
+        drv {info?.avgDriver ?? "—"} · fuel {info?.avgTeleopFuel ?? "—"} · wst{" "}
+        {info?.avgWasted ?? "—"}
       </p>
     </div>
   );
@@ -165,7 +165,7 @@ export function PickListBoard() {
         pitScouted: t.pitScouted,
         avgDriver: t.stats.avgDriverRating,
         avgTeleopFuel: t.stats.avgTeleopFuel,
-        avgTower: t.stats.avgTowerPoints,
+        avgWasted: t.stats.avgWastedFuel,
       });
     }
     return map;
