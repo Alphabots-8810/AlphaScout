@@ -36,7 +36,15 @@ const NAV = [
   { to: "/setup", label: "Event setup", icon: CalendarCog, adminOnly: true },
 ];
 
-function NavItems({ onNavigate }: { onNavigate?: () => void }) {
+function NavItems({
+  onNavigate,
+  onNavy,
+}: {
+  onNavigate?: () => void;
+  // The desktop nav sits on the 254-navy header bar; the mobile sheet
+  // sits on the normal background. Same items, different contrast.
+  onNavy?: boolean;
+}) {
   const me = useQuery(api.users.currentUser);
   return (
     <>
@@ -50,8 +58,10 @@ function NavItems({ onNavigate }: { onNavigate?: () => void }) {
             cn(
               "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
               isActive
-                ? "bg-primary text-primary-foreground"
-                : "text-muted-foreground hover:bg-muted hover:text-foreground",
+                ? "bg-poof text-white"
+                : onNavy
+                  ? "text-white/70 hover:bg-white/10 hover:text-white"
+                  : "text-muted-foreground hover:bg-muted hover:text-foreground",
             )
           }
         >
@@ -72,12 +82,16 @@ export function AppLayout() {
 
   return (
     <div className="min-h-dvh">
-      <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-navy text-white">
         <div className="mx-auto flex h-14 max-w-5xl items-center gap-2 px-4">
           <Sheet open={navOpen} onOpenChange={setNavOpen}>
             <SheetTrigger
               render={
-                <Button variant="ghost" size="icon" className="md:hidden">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-white hover:bg-white/10 hover:text-white md:hidden"
+                >
                   <Menu />
                 </Button>
               }
@@ -94,30 +108,36 @@ export function AppLayout() {
 
           <span className="text-base font-bold tracking-tight">AlphaScout</span>
           {activeEvent && (
-            <Badge variant="secondary" className="hidden sm:inline-flex">
+            <Badge className="hidden bg-white/15 text-white sm:inline-flex">
               {activeEvent.name}
             </Badge>
           )}
 
           <nav className="ml-4 hidden items-center gap-1 md:flex">
-            <NavItems />
+            <NavItems onNavy />
           </nav>
 
           <div className="ml-auto flex items-center gap-1">
-            <span className="hidden text-sm text-muted-foreground sm:inline">
+            <span className="hidden text-sm text-white/70 sm:inline">
               {me?.name ?? me?.email}
               {me?.role === "admin" && " · admin"}
             </span>
             <Button
               variant="ghost"
               size="icon"
+              className="text-white hover:bg-white/10 hover:text-white"
               onClick={() =>
                 setTheme(resolvedTheme === "dark" ? "light" : "dark")
               }
             >
               {resolvedTheme === "dark" ? <Sun /> : <Moon />}
             </Button>
-            <Button variant="ghost" size="icon" onClick={() => void signOut()}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-white hover:bg-white/10 hover:text-white"
+              onClick={() => void signOut()}
+            >
               <LogOut />
             </Button>
           </div>
